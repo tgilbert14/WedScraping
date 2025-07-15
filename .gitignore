@@ -6,6 +6,10 @@
 .RData
 .RDataTmp
 
+developingCode
+kw_data
+testingAndBackups
+
 # User-specific files
 .Ruserdata
 
