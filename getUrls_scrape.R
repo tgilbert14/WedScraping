@@ -38,7 +38,7 @@ check.validURLS_toCSV <- function(id_start, id_stop) {
   valid_locations <- results %>%
     filter(status == 200)
   
-  write.csv(valid_locations, paste0("kw_data/valid_locations_kwa_",id_start,"_",id_stop,".csv"))
+  write.csv(valid_locations, paste0(getwd(),"/testingAndBackups/valid_locations_kwa_",id_start,"_",id_stop,".csv"))
   return(valid_locations)
 }
 
