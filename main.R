@@ -20,27 +20,49 @@ function_path <- paste0(getwd(),"/getUrls_scrape.R")
 source(function_path)
 
 # creates csv of valid sites (status 200)
-check.validURLS_toCSV(id_start = 1, id_stop = 3000)
-check.validURLS_toCSV(id_start = 3000, id_stop = 6000)
+#check.validURLS_toCSV(id_start = 1, id_stop = 3000)
+#check.validURLS_toCSV(id_start = 3000, id_stop = 3100)
 
-# Read in valid sites to scrape
-file_name <- paste0(getwd(),"/valid_locations_kwa_1_3000.csv")
-web_siteinfo <- read.csv(file_name)
+# # Read in valid sites to scrape
+# file_name <- paste0(getwd(),"/testingAndBackups/valid_locations_kwa_1_3000.csv")
+# web_siteinfo <- read.csv(file_name)
+# 
+# # Read in valid sites to scrape
+# file_name_2 <- paste0(getwd(),"/testingAndBackups/url_locations.csv")
+# state_info <- read.csv(file_name_2)
+# names(state_info)[names(state_info) == "URL"] <- "url"
+
+# # megre and clean up data
+# location_data <- left_join(web_siteinfo, state_info)
+# location_data <- location_data %>%
+#   select(!c("X","id"))
+
+# write.csv(location_data, "locationData.csv")
 
 # function_path <- paste0(getwd(),"/html_js_scrape.R")
 # source(function_path)
 # this bumps download.file, curl, httr, etc. to 60 seconds
-options(timeout = 80)
+#options(timeout = 80)
 
+# read in location urls and clean up
+file_name_3 <- paste0(getwd(),"/locationData.csv")
+kwa_loc <- read.csv(file_name_3)
+kwa_loc_clean <- kwa_loc %>% 
+  filter(!is.na(url))
 
+# read in function to scrape locations
+function_path_2 <- paste0(getwd(),"/html_js_scrape.R")
+source(function_path_2)
 
 site=1
-while (site <= 100) {
-  scrape_leaders(web_siteinfo$url[site])
-  cat(site," complete... \n")
-  Sys.sleep(5)
+#while (site <= 5) {
+while (site <= length(kwa_loc_clean$url)) {
+  
+  scrape_leaders(loc_page_url = kwa_loc_clean$url[site], location_data = kwa_loc_clean)
+  cat(sprintf("✓ %d: Scraped %s\n", site, kwa_loc_clean$url[site]))
+
+  Sys.sleep(1)
   site=site+1
 }
 
-# clean up files
-list.files(paste0(getwd(),"/kw_data/"))
+#list.files(paste0(getwd(),"/kw_data/"))
