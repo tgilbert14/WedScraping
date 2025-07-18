@@ -12,7 +12,7 @@ library(dplyr)
 
 
 # Read in valid sites to scrape
-file_name <- paste0(getwd(),"/valid_locations_kwa_1_3000.csv")
+file_name <- paste0(getwd(),"/testingAndBackups/valid_locations_kwa_1_3000.csv")
 web_siteinfo <- read.csv(file_name)
 # To store results
 results <- tibble(URL = character(), State = character())
